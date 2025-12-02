@@ -1,0 +1,29 @@
+# ---- Build Stage ----
+FROM node:25-slim AS builder
+WORKDIR /app
+
+COPY package.json ./package.json
+COPY package-lock.json ./package-lock.json
+COPY vite.config.js ./vite.config.js
+COPY index.html ./index.html
+COPY src ./src
+COPY public ./public
+RUN npm install
+
+
+RUN npm run build
+RUN ls -l dist
+
+RUN sleep 10
+
+FROM node:25-slim AS runer
+WORKDIR /app
+COPY package.json ./package.json
+COPY package-lock.json ./package-lock.json
+COPY vite.config.js ./vite.config.js
+RUN  npm run prod:exp
+COPY  server ./server
+COPY --from=builder /app/dist ./server/dist
+
+EXPOSE 4000
+CMD ["npm", "run", "prod:start"]
