@@ -44,7 +44,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             echo "Pulling latest frontend image..."
-            docker pull manish23333/frontend:${{ github.sha }}
+            sudo docker pull manish23333/frontend:${{ github.sha }}
 
             echo "Stopping existing container..."
             docker stop frontend || true
