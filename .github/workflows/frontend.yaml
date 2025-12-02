@@ -47,11 +47,11 @@ jobs:
             sudo docker pull manish23333/frontend:${{ github.sha }}
 
             echo "Stopping existing container..."
-            docker stop frontend || true
-            docker rm frontend || true
+            sudo docker stop frontend || true
+            sudo docker rm frontend || true
 
             echo "Starting new container..."
-            docker run -d \
+            sudo docker run -d \
               --name frontend \
               -p 4000:4000 \
               manish23333/frontend:${{ github.sha }}
